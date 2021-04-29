@@ -1,0 +1,20 @@
+DESTDIR = $(HOME)0
+SHELL = /bin/bash
+INSFLAGS = -m 0755
+
+###########################################################################
+.PHONY all clean install
+all: dist/calculator/calculator
+
+dist/calculator/calculator: calculator.py
+	pyi-makespec calculator.py
+	pyinstaller calculator.spec
+
+clean: 
+	rm -rf ./build
+	rm -rf ./dist
+	rm -f calculator.spec
+
+install: dist/calculator/calculator
+	mkdir -p $(DEESTDIR)/opt
+	cd dist; find calculator -type f -exec install -D $(INFLAGS) "{}" "$(DESTDIR)/opt/{}" \;
